@@ -1,72 +1,26 @@
-import { useState } from "react";
-
-const C = {
-  cepeda:    { name:"Iván Cepeda",       short:"Cepeda",    tag:"Izquierda",        color:"#e84c3d", emoji:"🔴" },
-  lopez:     { name:"Claudia López",      short:"C. López",  tag:"Centro-izquierda", color:"#9b59b6", emoji:"🟣" },
-  fajardo:   { name:"Sergio Fajardo",     short:"Fajardo",   tag:"Centro",           color:"#27ae60", emoji:"🟢" },
-  valencia:  { name:"Paloma Valencia",    short:"Valencia",  tag:"Derecha",          color:"#2980b9", emoji:"🔵" },
-  espriella: { name:"De la Espriella",    short:"Espriella", tag:"Derecha indep.",   color:"#e67e22", emoji:"🟠" },
-};
-
-const QS = [
-  { topic:"💸 La plata del país", text:"Si el gobierno tuviera plata extra hoy, ¿qué debería hacer con ella?", options:[
-    { text:"Dársela a los que menos tienen: subsidios, vivienda, comida.", scores:{cepeda:3,lopez:1} },
-    { text:"Invertirla en educación y hospitales para todos por igual.", scores:{fajardo:3,lopez:1} },
-    { text:"Usarla para pagar deudas y no endeudarnos más.", scores:{espriella:3,valencia:2} },
-    { text:"Bajar impuestos para que los negocios crezcan y haya más empleo.", scores:{valencia:3,espriella:1} },
-  ]},
-  { topic:"🔫 Seguridad en el barrio", text:"¿Cómo le metemos mano a los grupos violentos que controlan zonas del país?", options:[
-    { text:"Hablando con ellos y ofreciéndoles salidas pacíficas.", scores:{cepeda:3} },
-    { text:"Con policía y ejército, pero también oportunidades en esas zonas.", scores:{fajardo:3,lopez:1} },
-    { text:"Tratarlos como criminales: cárcel y punto, sin negociar.", scores:{lopez:3,espriella:1} },
-    { text:"Mano durísima, cero contemplaciones.", scores:{valencia:3,espriella:2} },
-  ]},
-  { topic:"🏥 Cuando uno se enferma", text:"¿Cómo debería funcionar la salud en Colombia?", options:[
-    { text:"El Estado maneja todo y la salud es gratis para todos.", scores:{cepeda:3} },
-    { text:"Que funcione bien como estaba, con EPS y clínicas privadas.", scores:{valencia:3,espriella:2} },
-    { text:"Mejorar lo que hay sin dañar lo que funciona.", scores:{fajardo:2,lopez:2} },
-    { text:"Quitarles poder a los intermediarios que se roban la plata.", scores:{lopez:3,cepeda:1} },
-  ]},
-  { topic:"☮️ La paz", text:"Con los grupos armados que todavía quedan en Colombia…", options:[
-    { text:"Hay que negociar y buscarles una salida, así tome años.", scores:{cepeda:3} },
-    { text:"Que primero dejen las armas y después hablamos.", scores:{espriella:2,fajardo:1} },
-    { text:"Nada de diálogo: el ejército que los acabe.", scores:{valencia:3,espriella:2} },
-    { text:"Combatirlos, pero a los que se rindan darles una segunda oportunidad.", scores:{fajardo:2,lopez:2} },
-  ]},
-  { topic:"📚 Los hijos y el futuro", text:"¿En qué debería gastar más el gobierno para que los jóvenes tengan futuro?", options:[
-    { text:"Universidad gratis para los que no pueden pagarla.", scores:{cepeda:3,lopez:1} },
-    { text:"Que los colegios públicos sean tan buenos como los privados.", scores:{fajardo:3} },
-    { text:"Cursos y técnicos para que salgan con un oficio y trabajen.", scores:{fajardo:2,lopez:1,valencia:1} },
-    { text:"Dejar que las familias elijan: colegios privados con vouchers.", scores:{valencia:2,espriella:2} },
-  ]},
-  { topic:"⚖️ La diferencia entre ricos y pobres", text:"En Colombia unos pocos tienen muchísimo y la mayoría muy poco. ¿Qué hacemos?", options:[
-    { text:"Cobrarles más a los ricos y darles más a los pobres, ya.", scores:{cepeda:3} },
-    { text:"Acabar con la corrupción: ahí está la plata que le falta a los pobres.", scores:{lopez:3,fajardo:1} },
-    { text:"Que la economía crezca sola y eso le llega a todo el mundo.", scores:{valencia:2,espriella:2} },
-    { text:"Darle a todos la misma educación y oportunidades desde chiquitos.", scores:{fajardo:3,lopez:1} },
-  ]},
-];
-
-function winner(sc){return Object.entries(sc).sort((a,b)=>b[1]-a[1])[0][0];}
-function ranked(sc){const mx=Math.max(...Object.values(sc));return Object.entries(sc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({k,pct:mx>0?Math.round(v/mx*100):0}));}
-
-function Logo({small}){const fs=small?20:26,bs=small?30:38;return(<div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:0,marginBottom:small?12:22}}><span style={{fontFamily:"'Fraunces',serif",fontWeight:900,fontSize:bs*0.78,background:"#f5c842",color:"#09090f",borderRadius:7,width:bs,height:bs,display:"inline-flex",alignItems:"center",justifyContent:"center"}}>A</span><span style={{fontFamily:"'Fraunces',serif",fontWeight:700,fontSize:fs,color:"#f0eee8",marginLeft:6}}>nder<span style={{color:"#f5c842"}}>ground</span></span></div>);}
-function Page({children}){return(<div style={{minHeight:"100vh",background:"#09090f",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px 16px 64px",fontFamily:"'DM Sans',sans-serif"}}>{children}</div>);}
-
+import{useState}from"react"
+const C={cepeda:{name:"Iván Cepeda",short:"Cepeda",tag:"Izquierda",color:"#e84c3d",emoji:"🔴"},lopez:{name:"Claudia López",short:"C. López",tag:"Centro-izq.",color:"#9b59b6",emoji:"🟣"},fajardo:{name:"Sergio Fajardo",short:"Fajardo",tag:"Centro",color:"#27ae60",emoji:"🟢"},valencia:{name:"Paloma Valencia",short:"Valencia",tag:"Derecha",color:"#2980b9",emoji:"🔵"},espriella:{name:"De la Espriella",short:"Espriella",tag:"Derecha ind.",color:"#e67e22",emoji:"🟠"}}
+const Q=[{t:"💸 La plata",p:"Si el gobierno tuviera plata extra, ¿qué debería hacer?",o:[{x:"Dársela a los que menos tienen.",s:{cepeda:3,lopez:1}},{x:"Invertirla en educación y hospitales.",s:{fajardo:3,lopez:1}},{x:"Pagar deudas y no endeudarnos más.",s:{espriella:3,valencia:2}},{x:"Bajar impuestos para crear empleo.",s:{valencia:3,espriella:1}}]},{t:"🔫 Seguridad",p:"¿Cómo le metemos mano a los grupos violentos?",o:[{x:"Hablando y ofreciéndoles salidas pacíficas.",s:{cepeda:3}},{x:"Policía y ejército, pero con oportunidades.",s:{fajardo:3,lopez:1}},{x:"Tratarlos como criminales, sin negociar.",s:{lopez:3,espriella:1}},{x:"Mano durísima, cero contemplaciones.",s:{valencia:3,espriella:2}}]},{t:"🏥 Salud",p:"¿Cómo debería funcionar la salud?",o:[{x:"El Estado maneja todo, salud gratis.",s:{cepeda:3}},{x:"Que funcione bien con EPS y clínicas.",s:{valencia:3,espriella:2}},{x:"Mejorar lo que hay sin dañar lo que funciona.",s:{fajardo:2,lopez:2}},{x:"Quitarles poder a los que se roban la plata.",s:{lopez:3,cepeda:1}}]},{t:"☮️ La paz",p:"Con los grupos armados que quedan…",o:[{x:"Negociar y buscarles salida, así tome años.",s:{cepeda:3}},{x:"Que dejen las armas primero.",s:{espriella:2,fajardo:1}},{x:"Nada de diálogo: el ejército que los acabe.",s:{valencia:3,espriella:2}},{x:"Combatirlos, pero darles segunda oportunidad.",s:{fajardo:2,lopez:2}}]},{t:"📚 Educación",p:"¿En qué gastar más para que los jóvenes tengan futuro?",o:[{x:"Universidad gratis para quien no puede.",s:{cepeda:3,lopez:1}},{x:"Colegios públicos tan buenos como privados.",s:{fajardo:3}},{x:"Cursos técnicos para salir con un oficio.",s:{fajardo:2,lopez:1,valencia:1}},{x:"Familias eligen: colegios con vouchers.",s:{valencia:2,espriella:2}}]},{t:"⚖️ Desigualdad",p:"Unos pocos tienen mucho y la mayoría poco. ¿Qué hacemos?",o:[{x:"Cobrarles más a ricos, darles más a pobres.",s:{cepeda:3}},{x:"Acabar con la corrupción que roba la plata.",s:{lopez:3,fajardo:1}},{x:"Que la economía crezca y llegue a todos.",s:{valencia:2,espriella:2}},{x:"Igual educación y oportunidades desde chiquitos.",s:{fajardo:3,lopez:1}}]}]
+const win=s=>Object.entries(s).sort((a,b)=>b[1]-a[1])[0][0]
+const rank=s=>{const m=Math.max(...Object.values(s));return Object.entries(s).sort((a,b)=>b[1]-a[1]).map(([k,v])=>({k,p:m>0?Math.round(v/m*100):0}))}
 export default function App(){
-  const [screen,setScreen]=useState("home");
-  const [name,setName]=useState("");
-  const [age,setAge]=useState("");
-  const [qIdx,setQIdx]=useState(0);
-  const [scores,setScores]=useState({cepeda:0,lopez:0,fajardo:0,valencia:0,espriella:0});
-  const [chosen,setChosen]=useState(null);
-  const [result,setResult]=useState(null);
-
-  function handleOption(i){setChosen(prev=>prev===i?null:i);}
-  function handleEnviar(){if(chosen===null)return;const opt=QS[qIdx].options[chosen];const ns={...scores};Object.entries(opt.scores||{}).forEach(([k,v])=>{ns[k]=(ns[k]||0)+v;});setScores(ns);setChosen(null);if(qIdx+1>=QS.length){setResult({name:name.trim(),age:age.trim(),winner:winner(ns),all:ranked(ns)});setScreen("result");}else{setQIdx(q=>q+1);}}
-  function startQuiz(){if(!name.trim()||!age.trim())return;setQIdx(0);setScores({cepeda:0,lopez:0,fajardo:0,valencia:0,espriella:0});setChosen(null);setScreen("quiz");}
-  function restart(){setName("");setAge("");setResult(null);setScreen("home");}
-
-  if(screen==="home")return(<Page><Logo/><h1 style={S.h1}>Descubrí lo que<br/><em style={S.em}>en verdad</em><br/>llevás dentro</h1><p style={S.sub}>6 preguntas sencillas. Sin política complicada.<br/>Descubrí con qué candidato pensás más parecido. 🇨🇴</p><div style={{display:"flex",flexDirection:"column",gap:10,width:"100%",maxWidth:340,margin:"28px auto 0"}}><label style={S.lbl}>Tu nombre</label><input style={S.inp} placeholder="Ej: Mamá Gloria" value={name} onChange={e=>setName(e.target.value)}/><label style={{...S.lbl,marginTop:8}}>Tu edad</label><input style={S.inp} placeholder="Ej: 52" type="number" min="1" max="120" value={age} onChange={e=>setAge(e.target.value)}/><button style={{...S.btnY,marginTop:16,opacity:(name.trim()&&age.trim())?1:0.4}} onClick={startQuiz} disabled={!name.trim()||!age.trim()}>Empezar →</button></div><p style={S.credit}>Anderground · Creado por Ander · Colombia 2026</p></Page>);
-
-  if(screen==="quiz")return(<Page><div style={S.card}><div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}><span style={S.lbl}>{qIdx+1} de {QS.length}</span><span style={S.lbl}>{Math.round((qIdx/QS.length)*100)}%</span></div><div style={S.progBar}><div style={{...S.progFill,width:`${Math.round((qIdx/QS.length)*100)}%`}}/></div><div style={S.topicTag}>{QS[qIdx].topic}</div><h2 style={S.qText}>{QS[qIdx].text}</h2><div style={{display:"flex",flexDirection:"column",gap:10}}>{QS[qIdx].options.map((opt,i)=>{const sel=chosen===i;return(
+const[sc,setSc]=useState("home")
+const[nm,setNm]=useState("")
+const[ag,setAg]=useState("")
+const[qi,setQi]=useState(0)
+const[pts,setPts]=useState({cepeda:0,lopez:0,fajardo:0,valencia:0,espriella:0})
+const[ch,setCh]=useState(null)
+const[res,setRes]=useState(null)
+const BG={background:"#09090f",minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px 16px 64px",fontFamily:"sans-serif",color:"#f0eee8"}
+const CARD={background:"#13131c",border:"1px solid #1e1e2e",borderRadius:22,padding:"28px 24px",width:"100%",maxWidth:500,boxSizing:"border-box"}
+const BTN={background:"#f5c842",color:"#09090f",border:"none",padding:"13px 28px",borderRadius:50,fontFamily:"sans-serif",fontSize:14,fontWeight:700,cursor:"pointer",display:"block",width:"100%",marginTop:14,boxSizing:"border-box"}
+const INP={width:"100%",background:"#09090f",border:"1.5px solid #1e1e2e",borderRadius:12,padding:"12px",color:"#f0eee8",fontSize:14,marginTop:6,marginBottom:14,boxSizing:"border-box"}
+function pick(i){setCh(p=>p===i?null:i)}
+function next(){if(ch===null)return;const o=Q[qi].o[ch];const n={...pts};Object.entries(o.s||{}).forEach(([k,v])=>{n[k]=(n[k]||0)+v});setPts(n);setCh(null);if(qi+1>=Q.length){setRes({nm:nm.trim(),ag:ag.trim(),w:win(n),all:rank(n)});setSc("result")}else setQi(q=>q+1)}
+function go(){if(!nm.trim()||!ag.trim())return;setQi(0);setPts({cepeda:0,lopez:0,fajardo:0,valencia:0,espriella:0});setCh(null);setSc("quiz")}
+const Logo=()=><div style={{fontSize:28,fontWeight:900,textAlign:"center",marginBottom:20}}><span style={{background:"#f5c842",color:"#09090f",padding:"2px 10px",borderRadius:8}}>A</span><span style={{color:"#f5c842"}}>nderground</span></div>
+if(sc==="home")return(<div style={BG}><Logo/><h1 style={{textAlign:"center",lineHeight:1.2,marginBottom:12}}>Descubrí lo que<br/><em style={{color:"#f5c842"}}>en verdad</em><br/>llevás dentro</h1><p style={{color:"#555",textAlign:"center",marginBottom:24}}>6 preguntas · Colombia 2026 🇨🇴</p><div style={CARD}><label style={{color:"#444",fontSize:11,textTransform:"uppercase"}}>Tu nombre</label><input style={INP} placeholder="Ej: Mamá Gloria" value={nm} onChange={e=>setNm(e.target.value)}/><label style={{color:"#444",fontSize:11,textTransform:"uppercase"}}>Tu edad</label><input style={{...INP,marginBottom:0}} placeholder="Ej: 52" type="number" value={ag} onChange={e=>setAg(e.target.value)}/><button style={{...BTN,opacity:(nm.trim()&&ag.trim())?1:0.4}} onClick={go} disabled={!nm.trim()||!ag.trim()}>Empezar →</button></div><p style={{color:"#222",fontSize:11,marginTop:16}}>Creado por Ander · Solo orientativo</p></div>)
+if(sc==="quiz"){const q=Q[qi];return(<div style={BG}><div style={CARD}><div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}><span style={{color:"#444",fontSize:11}}>{qi+1} de {Q.length}</span><span style={{color:"#444",fontSize:11}}>{Math.round(qi/Q.length*100)}%</span></div><div style={{height:4,background:"#1a1a28",borderRadius:2,overflow:"hidden",marginBottom:20}}><div style={{width:`${Math.round(qi/Q.length*100)}%`,height:"100%",background:"#f5c842",borderRadius:2}}/></div><div style={{color:"#f5c842",fontSize:11,fontWeight:700,textTransform:"uppercase",marginBottom:8}}>{q.t}</div><h2 style={{fontSize:18,lineHeight:1.3,marginBottom:20}}>{q.p}</h2>{q.o.map((o,i)=>{const s=ch===i;return(<button key={i} onClick={()=>pick(i)} style={{background:s?"#f5c84212":"#0d0d16",border:s?"1.5px solid #f5c842":"1.5px solid #1e1e2e",borderRadius:14,padding:"13px 15px",color:"#b0aead",fontFamily:"sans-serif",fontSize:13,cursor:"pointer",display:"flex",alignItems:"flex-start",gap:12,width:"100%",marginBottom:10,textAlign:"left",boxSizing:"border-box"}}><span style={{background:s?"#f5c842":"#1e1e2e",color:s?"#09090f":"#444",width:26,height:26,borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:700,flexShrink:0}}>{["A","B","C","D"][i]}</span>{o.x}</button>)})}{ch!==null&&<p style={{textAlign:"center",fontSize:11,color:"#555",marginTop:4}}>¿Te equivocaste? Toca otra opción.</p>}<button onClick={next} disabled={ch===null} style={{...BTN,opacity:ch!==null?1:0.25}}>{qi+1===Q.length?"Ver mi resultado ✦":"Siguiente →"}</button></div></div>)}
+if(sc==="result"&&res){const c=C[res.w];const wt=encodeURIComponent(`🗳️ Anderground: pensás más parecido a ${c.emoji} ${c.name}\n¿Y vos? → ${window.location.href}`);return(<div style={BG}><div style={CARD}><Logo/><p style={{textAlign:"center",color:"#444",fontSize:11,textTransform:"uppercase",marginBottom:4}}>¡Listo, {res.nm}! 👋</p><h2 style={{textAlign:"center",marginBottom:14}}>Pensás más parecido a…</h2><div style={{border:`2px solid ${c.color}`,background:`${c.color}18`,borderRadius:16,padding:"22px",textAlign:"center",marginBottom:20}}><div style={{fontSize:40}}>{c.emoji}</div><div style={{fontWeight:900,fontSize:22,color:c.color,marginTop:6}}>{c.name}</div><div style={{fontSize:11,color:"#777",marginTop:4}}>{c.tag}</div></div><p style={{color:"#444",fontSize:11,textTransform:"uppercase",marginBottom:10}}>Afinidad con todos</p>{res.all.map(({k,p})=>(<div key={k} style={{display:"flex",alignItems:"center",gap:10,marginBottom:8}}><span style={{fontSize:12,minWidth:80,color:C[k].color,fontWeight:700}}>{C[k].short}</span><div style={{flex:1,height:7,background:"#1a1a28",borderRadius:3,overflow:"hidden"}}><div style={{width:`${p}%`,height:"100%",background:C[k].color,borderRadius:3}}/></div><span style={{fontSize:11,color:"#555",minWidth:30,textAlign:"right"}}>{p}%</span></div>))}<a href={`https://wa.me/?text=${wt}`} target="_blank" rel="noreferrer" style={{background:"#25D366",color:"#fff",border:"none",padding:"13px 28px",borderRadius:50,fontFamily:"sans-serif",fontSize:14,fontWeight:700,cursor:"pointer",display:"block",width:"100%",marginTop:20,textAlign:"center",textDecoration:"none",boxSizing:"border-box"}}>📲 Compartir por WhatsApp</a><button style={{background:"transparent",color:"#444",border:"none",fontSize:12,cursor:"pointer",marginTop:10,display:"block",width:"100%",textAlign:"center"}} onClick={()=>{setNm("");setAg("");setSc("home")}}>↩ Volver al inicio</button><p style={{color:"#222",fontSize:11,marginTop:16,textAlign:"center"}}>Anderground · Creado por Ander · Solo orientativo</p></div></div>)}
+return null
+}
